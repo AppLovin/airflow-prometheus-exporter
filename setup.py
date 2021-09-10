@@ -9,7 +9,7 @@ with open('README.md', encoding='utf-8') as readme_file:
     readme = readme_file.read()
 
 install_requirements = [
-    'apache-airflow>=1.10.4',
+    'apache-airflow[mysql]==1.10.14',
     'prometheus_client>=0.4.2',
 ],
 
@@ -43,7 +43,7 @@ setup(
     packages=find_packages(include=['airflow_prometheus_exporter']),
     include_package_data=True,
     url='https://github.com/robinhood/airflow_prometheus_exporter',
-    version='1.0.7',
+    version='1.0.8',
     entry_points={
         'airflow.plugins': [
             'AirflowPrometheus = airflow_prometheus_exporter.prometheus_exporter:AirflowPrometheusPlugin'

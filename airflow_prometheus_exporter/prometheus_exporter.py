@@ -13,7 +13,7 @@ from flask import Response
 from flask_admin import BaseView, expose
 from prometheus_client import generate_latest, REGISTRY
 from prometheus_client.core import GaugeMetricFamily
-from sqlalchemy import and_, func
+from sqlalchemy import and_, func, text
 
 from airflow_prometheus_exporter.xcom_config import load_xcom_config
 
@@ -99,6 +99,10 @@ def get_dag_duration_info():
                     ),
                 ),
             )
+            .filter(
+                TaskInstance.start_date.isnot(None),
+                TaskInstance.end_date.isnot(None),
+            )
             .group_by(
                 max_execution_dt_query.c.dag_id,
                 max_execution_dt_query.c.max_execution_dt,
@@ -119,10 +123,6 @@ def get_dag_duration_info():
                     DagRun.execution_date
                     == dag_start_dt_query.c.execution_date,
                 ),
-            )
-            .filter(
-                TaskInstance.start_date.isnot(None),
-                TaskInstance.end_date.isnot(None),
             )
             .all()
         )

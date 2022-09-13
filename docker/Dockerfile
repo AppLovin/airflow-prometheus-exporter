@@ -1,4 +1,4 @@
-FROM python:3.6-slim
+FROM python:3.9-slim
 
 ARG AIRFLOW_USER_HOME=/usr/local/airflow
 ENV AIRFLOW_HOME=${AIRFLOW_USER_HOME}
